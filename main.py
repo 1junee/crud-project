@@ -11,6 +11,7 @@ posts = {
     1: {'id': 1, 'title': '출석 인증', 'content': '출석 인증합니다.'},
     2: {'id': 2, 'title': '등업 요청', 'content': '등업 요청합니다.'},
 }
+next_id = max(posts) + 1 if posts else 1  # 다음 글에 줄 번호 (삭제와 상관없이 증가만 함)
 
 
 @app.get('/')
@@ -75,7 +76,10 @@ def post_new(request: Request):
 # @app.get('/posts/create')
 @app.post('/posts/create')
 def post_create(title: str = Form(), content: str = Form()):
-    new_id = max(posts.keys()) + 1
+    global next_id          # 함수 밖의 next_id를 바꾸겠다는 선언
+    new_id = next_id
+    next_id += 1            # 번호표 한 장 뽑았으니 다음 번호로
+
     posts[new_id] = {'id': new_id, 'title': title, 'content': content}
 
     # 리디렉션
@@ -123,3 +127,10 @@ def post_update(post_id: int,
     
     return RedirectResponse(f'/posts/{post_id}', status_code=303)
 
+
+# @app.get('/posts/{post_id}/delete')
+@app.post('/posts/{post_id}/delete')
+def post_delete(post_id: int):
+    posts.pop(post_id)
+
+    return RedirectResponse('/posts', status_code=303)
