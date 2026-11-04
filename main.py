@@ -6,6 +6,12 @@ app = FastAPI()
 # directory => 앞으로 html 파일을 찾을 위치
 templates = Jinja2Templates(directory='templates')
 
+# 가상의 데이터
+posts = {
+    1: {'id': 1, 'title': '출석 인증', 'content': '출석 인증합니다.'},
+    2: {'id': 2, 'title': '등업 요청', 'content': '등업 요청합니다.'},
+}
+
 
 @app.get('/')
 def home():
