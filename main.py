@@ -1,6 +1,6 @@
 from fastapi import FastAPI, Request, Form
 from fastapi.templating import Jinja2Templates
-
+from fastapi.responses import RedirectResponse
 
 app = FastAPI()
 # directory => 앞으로 html 파일을 찾을 위치
@@ -60,6 +60,30 @@ def post_list(request: Request):
     )
 
 
+# ping
+# 사용자가 데이터 입력할 수 있는 페이지 제공
+@app.get('/posts/new')
+def post_new(request: Request):
+    return templates.TemplateResponse(
+        request=request,
+        name='new.html'
+    )
+
+
+# pong
+# 사용자가 넘겨준 데이터를 저장
+# @app.get('/posts/create')
+@app.post('/posts/create')
+def post_create(request: Request, title: str = Form(), content: str = Form()):
+    new_id = max(posts.keys()) + 1
+    posts[new_id] = {'id': new_id, 'title': title, 'content': content}
+
+    # 리디렉션
+    # 게시물을 쓰면, 게시물을 보여주게 하고 싶을 때
+    # return RedirectResponse('/posts', status_code=303)
+    return RedirectResponse(f'/posts/{new_id}', status_code=303)
+
+
 # 하나의 게시물 출력
 @app.get('/posts/{post_id}')
 def post_list(request: Request, post_id: int):
@@ -69,6 +93,3 @@ def post_list(request: Request, post_id: int):
         name='detail.html',
         context={'post': post}
     )
-
-
-
