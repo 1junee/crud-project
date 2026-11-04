@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, Form
 from fastapi.templating import Jinja2Templates
 
 
@@ -22,12 +22,25 @@ def ping(request: Request):
         # context=,
     )
 
+# 받는 정보를 사용하는 페이지 (get 방식)
 @app.get('/pong')
 def pong(request: Request, count: int):
     cube = count ** 3
     return templates.TemplateResponse(
         request=request, 
         name='pong.html',
-        context={'count': cube}
+        context={'result': cube}
     )
+# http://127.0.0.1:8000/pong?count=3
+
+
+# 받는 정보를 사용하는 페이지 (post 방식)
+@app.post('/pong')
+def pong_post(request: Request, count: int = Form()):
+    return templates.TemplateResponse(
+        request=request,
+        name='pong.html',
+        context={'result': count ** 2}
+    )
+
 

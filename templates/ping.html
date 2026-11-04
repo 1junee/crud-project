@@ -8,7 +8,13 @@
 <body>
     <h1>값을 입력해주소</h1>
     {# 액션이 없는 폼은 의미 없음 #}
-    <form action="/pong">
+    {# method는 디폴트로는 get #}
+    {# get -> url / post -> payload  정보 담는 위치 차이 #}
+    {# rest api  #}
+    {# GET  : 데이터를 '조회'하는 요청 (값은 주소 뒤 ?에 붙음, 서버 상태 안 바뀜) #}
+    {# POST : 데이터를 '처리/저장'하는 요청 (값은 본문에 숨겨서, 서버 상태가 바뀜) #}
+
+    <form action="/pong" method="post">
         <input type="text" name="count">
         <input type="submit">
     </form>
