@@ -9,7 +9,11 @@
     <!-- {'id': 1, 'title': '출석 인증', 'content': '출석 인증합니다.'} -->
     <h1>{{ post['title'] }}</h1>
     <p>{{ post['content'] }}</p>
-    
+
+    <a href="/posts/{{ post['id'] }}/edit">수정하기</a>
     <a href="/posts">전체게시판</a>
+
+
+
 </body>
 </html>

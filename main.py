@@ -74,7 +74,7 @@ def post_new(request: Request):
 # 사용자가 넘겨준 데이터를 저장
 # @app.get('/posts/create')
 @app.post('/posts/create')
-def post_create(request: Request, title: str = Form(), content: str = Form()):
+def post_create(title: str = Form(), content: str = Form()):
     new_id = max(posts.keys()) + 1
     posts[new_id] = {'id': new_id, 'title': title, 'content': content}
 
@@ -86,10 +86,40 @@ def post_create(request: Request, title: str = Form(), content: str = Form()):
 
 # 하나의 게시물 출력
 @app.get('/posts/{post_id}')
-def post_list(request: Request, post_id: int):
+def post_detial(request: Request, post_id: int):
     post = posts[post_id]
     return templates.TemplateResponse(
         request=request,
         name='detail.html',
         context={'post': post}
     )
+
+
+
+@app.get('/posts/{post_id}/edit')
+def post_edit(request: Request, post_id: int):
+    post = posts[post_id]
+
+    return templates.TemplateResponse(
+        request=request,
+        name='edit.html',
+        context={'post': post}
+    )
+
+
+# 아마 post
+@app.post('/posts/{post_id}/update')
+def post_update(post_id: int,
+                title: str = Form(), 
+                content: str = Form()):
+    # 기존 정보 찾기
+    old_post = posts[post_id]
+    # 수정하기
+    old_post['title'] = title
+    old_post['content'] = content
+    new_post = old_post
+    # 수정 적용
+    posts[post_id] = new_post
+    
+    return RedirectResponse(f'/posts/{post_id}', status_code=303)
+
