@@ -17,3 +17,6 @@ uv add "fastapi[standard]"
 uv run fastapi dev
 ```
 
+## CRUD
+
+> create, read, update, delete
