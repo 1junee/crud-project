@@ -8,9 +8,7 @@ uv init <> --bare --python 3.14
 cd <>
 code . 
 
-git init
-git add .
-git commit -m 'initial commit'
+uv add "fastapi[standard]"
 ```
 
 
