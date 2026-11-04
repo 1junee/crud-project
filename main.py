@@ -62,6 +62,13 @@ def post_list(request: Request):
 
 # 하나의 게시물 출력
 @app.get('/posts/{post_id}')
-def post_list(post_id: int):
-    return posts.get(post_id)
+def post_list(request: Request, post_id: int):
+    post = posts[post_id]
+    return templates.TemplateResponse(
+        request=request,
+        name='detail.html',
+        context={'post': post}
+    )
+
+
 
